@@ -1,41 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Admin — Submissions</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Admin — Submissions</h1>
-
-    {% if not authorized %}
-      <p style="color:darkred">{{ message }}</p>
-      <p>To access, open: <code>/admin?password=YOURPASSWORD</code></p>
-    {% else %}
-      {% if rows %}
-        <table class="admin-table">
-          <thead>
-            <tr><th>Time (UTC)</th><th>Name</th><th>Sections (scores)</th><th>Total</th><th>Writing</th><th>Speaking</th></tr>
-          </thead>
-          <tbody>
-            {% for r in rows %}
-              <tr>
-                <td>{{ r.timestamp }}</td>
-                <td>{{ r.name }}</td>
-                <td>{{ r.section_summary }}</td>
-                <td>{{ r.total_score }} / {{ r.total_max }}</td>
-                <td>{{ r.writing }}</td>
-                <td>{{ r.speaking }}</td>
-              </tr>
+    <h1>Admin Panel - Scores</h1>
+    <table border="1">
+        <tr>
+            <th>Date & Time</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Total</th>
+        </tr>
+        {% for row in results %}
+        <tr>
+            {% for cell in row %}
+            <td>{{ cell }}</td>
             {% endfor %}
-          </tbody>
-        </table>
-      {% else %}
-        <p>No submissions yet.</p>
-      {% endif %}
-    {% endif %}
-
-  </div>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

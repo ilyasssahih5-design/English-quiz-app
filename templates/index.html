@@ -1,117 +1,103 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>English Practice — Full Test</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>English Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>English Practice — Full Test</h1>
-      <p class="lead">Complete all parts. Submit once when finished. Your teacher will see your results.</p>
-    </header>
+    <h1>English Quiz</h1>
+    <form method="POST">
+        <label>Student Name:</label>
+        <input type="text" name="student_name" required><br><br>
 
-    <form action="{{ url_for('submit') }}" method="post">
-
-      <label for="student_name">Your name:</label>
-      <input type="text" id="student_name" name="student_name" placeholder="Write your name" required>
-
-      <!-- PART 1: Grammar -->
-      <section class="card">
-        <h2>🗓️ PART 1 — Grammar (Fill the blanks)</h2>
-        {% for q in questions['grammar'] %}
-          {% set i = loop.index0 %}
-          <div class="question">
-            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
-            <input type="text" name="grammar_{{ i }}" placeholder="Type the correct form">
-          </div>
+        <!-- PART 1: Grammar -->
+        <h2>Part 1 — Grammar: Fill in the blanks</h2>
+        {% set grammar_questions = [
+            "My sister __________ (study) English every day.",
+            "We __________ (not/watch) TV in the morning.",
+            "__________ you __________ (like) pizza?",
+            "He always __________ (go) to school by bus.",
+            "The sun __________ (rise) in the east.",
+            "They __________ (work) in a restaurant downtown.",
+            "My parents __________ (not/speak) French.",
+            "What time __________ the train __________ (leave)?"
+        ] %}
+        {% for i, q in enumerate(grammar_questions) %}
+            <label>{{ q }}</label><br>
+            <input type="text" name="grammar_{{ i }}"><br><br>
         {% endfor %}
-      </section>
 
-      <!-- PART 2: Multiple Choice -->
-      <section class="card">
-        <h2>💡 PART 2 — Multiple Choice</h2>
-        {% for q in questions['multiple_choice'] %}
-          {% set i = loop.index0 %}
-          <div class="question">
-            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
-            {% for opt in q.options %}
-              <label class="option"><input type="radio" name="multiple_choice_{{ i }}" value="{{ opt }}"> {{ opt }}</label><br>
+        <!-- PART 2: Multiple Choice -->
+        <h2>Part 2 — Multiple Choice</h2>
+        {% set mc_questions = [
+            {"q":"She __________ to music every evening.","options":["listen","listens","listening"]},
+            {"q":"My friends __________ football on weekends.","options":["plays","play","playing"]},
+            {"q":"The shop __________ at 9:00 a.m.","options":["open","opens","opened"]},
+            {"q":"I __________ coffee in the morning.","options":["don’t drink","doesn’t drink","not drink"]},
+            {"q":"__________ your brother live near here?","options":["Is","Do","Does"]}
+        ] %}
+        {% for i, item in enumerate(mc_questions) %}
+            <label>{{ item.q }}</label><br>
+            {% for j, option in enumerate(item.options) %}
+                <input type="radio" name="mc_{{ i }}" value="{{ ['A','B','C'][j] }}"> {{ option }}<br>
             {% endfor %}
-          </div>
+            <br>
         {% endfor %}
-      </section>
 
-      <!-- PART 3: Correct the mistakes -->
-      <section class="card">
-        <h2>✍️ PART 3 — Correct the Mistakes</h2>
-        {% for q in questions['correct_mistakes'] %}
-          {% set i = loop.index0 %}
-          <div class="question">
-            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
-            <input type="text" name="correct_mistakes_{{ i }}" placeholder="Write the correct sentence">
-          </div>
+        <!-- PART 3: Correct the mistakes -->
+        <h2>Part 3 — Correct the mistakes</h2>
+        {% set correction_questions = [
+            "She go to work every day.",
+            "My dog don’t like water.",
+            "Do he play basketball?",
+            "They studies English on Monday.",
+            "I not eat breakfast in the morning."
+        ] %}
+        {% for i, q in enumerate(correction_questions) %}
+            <label>{{ q }}</label><br>
+            <input type="text" name="correction_{{ i }}"><br><br>
         {% endfor %}
-      </section>
 
-      <!-- PART 4: Reading Comprehension -->
-      <section class="card">
-        <h2>📖 PART 4 — Reading Comprehension</h2>
-        <div class="reading-text">
-          <p><strong>Tom’s Daily Routine</strong><br>
-          Tom is a student. He lives in London with his parents and his sister. Every day, Tom wakes up at 7:00 a.m. He has breakfast at 7:30 and then goes to school. His classes start at 8:30 and finish at 2:30. After school, he plays football with his friends in the park. In the evening, Tom does his homework and watches TV. He goes to bed at 10:00 p.m.</p>
-        </div>
-        {% for q in questions['reading'] %}
-          {% set i = loop.index0 %}
-          <div class="question">
-            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
-            <input type="text" name="reading_{{ i }}" placeholder="Type your answer">
-          </div>
+        <!-- PART 4: Reading Comprehension -->
+        <h2>Part 4 — Reading Comprehension</h2>
+        <p><b>Tom’s Daily Routine</b><br>
+        Tom is a student. He lives in London with his parents and his sister. Every day, Tom wakes up at 7:00 a.m. He has breakfast at 7:30 and then goes to school. His classes start at 8:30 and finish at 2:30. After school, he plays football with his friends in the park. In the evening, Tom does his homework and watches TV. He goes to bed at 10:00 p.m.</p>
+        {% set reading_questions = [
+            "Where does Tom live?",
+            "What time does Tom wake up?",
+            "What does Tom do after school?",
+            "Does Tom go to bed early or late?",
+            "What time do his classes finish?"
+        ] %}
+        {% for i, q in enumerate(reading_questions) %}
+            <label>{{ q }}</label><br>
+            <input type="text" name="reading_{{ i }}"><br><br>
         {% endfor %}
-      </section>
 
-      <!-- PART 5: Listening -->
-      <section class="card">
-        <h2>🎧 PART 5 — Listening Comprehension</h2>
-        <p>Play the audio and answer the questions.</p>
+        <!-- PART 5: Listening (Audio file) -->
+        <h2>Part 5 — Listening Comprehension</h2>
         <audio controls>
-          <source src="{{ url_for('static', filename='audio/listening.mp3') }}" type="audio/mpeg">
-          Your browser does not support the audio element.
+            <source src="{{ url_for('static', filename='audio/part5_audio.mp3') }}" type="audio/mpeg">
         </audio>
-        {% for q in questions['listening'] %}
-          {% set i = loop.index0 %}
-          <div class="question">
-            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
-            <input type="text" name="listening_{{ i }}" placeholder="Type your answer">
-          </div>
+        {% set listening_questions = [
+            "What is Sarah’s job?",
+            "What time does she start work?",
+            "What does she do at work?",
+            "Does she like her job?",
+            "What does she do in the evening?"
+        ] %}
+        {% for i, q in enumerate(listening_questions) %}
+            <label>{{ q }}</label><br>
+            <input type="text" name="listening_{{ i }}"><br><br>
         {% endfor %}
-      </section>
 
-      <!-- PART 6: Writing -->
-      <section class="card">
-        <h2>✍️ PART 6 — Writing</h2>
-        <p>{{ questions['writing'][0].question }}</p>
-        <textarea name="writing_0" rows="5" placeholder="Write your 5 sentences here..."></textarea>
-      </section>
+        <!-- PART 6: Writing -->
+        <h2>Part 6 — Writing</h2>
+        <label>Write 5 sentences describing your daily routine using Present Simple:</label><br>
+        <textarea name="writing" rows="5" cols="50"></textarea><br><br>
 
-      <!-- SPEAKING (as text if no recording) -->
-      <section class="card">
-        <h2>🗣️ SPEAKING</h2>
-        <p>{{ questions['speaking'][0].question }}</p>
-        <textarea name="speaking_0" rows="4" placeholder="Write what you would say (or paste a link to a recording)"></textarea>
-      </section>
-
-      <div class="actions">
-        <button type="submit" class="btn primary">Submit all answers</button>
-      </div>
-
+        <button type="submit">Submit Quiz</button>
     </form>
-
-    <footer>
-      <p class="small">Teacher only: view all submissions at <code>/admin?password=0690510180Ilyas</code></p>
-    </footer>
-  </div>
 </body>
 </html>
