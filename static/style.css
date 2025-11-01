@@ -1,0 +1,41 @@
+/* Upgraded look (same as earlier but included here) */
+:root{
+  --bg:#f4f9ff;
+  --card:#fff;
+  --accent:#0077cc;
+  --accent-dark:#005ea6;
+  --green:#2e8b57;
+  --red:#d9534f;
+  --muted:#666;
+}
+body{
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  background:var(--bg);
+  margin:0;padding:20px;color:#222;
+}
+.container{
+  max-width:950px;margin:0 auto;
+}
+header h1{color:var(--accent);font-family:"Comic Sans MS",cursive;margin-bottom:6px;}
+.lead{color:var(--muted);margin-bottom:18px;}
+.card{
+  background:var(--card);padding:18px;border-radius:10px;margin-bottom:16px;box-shadow:0 4px 14px rgba(0,0,0,0.06);transition:all .2s;
+}
+.card:hover{transform:translateY(-3px)}
+.qtext{font-weight:600;margin:6px 0;}
+input[type="text"], textarea, select{
+  width:100%;padding:8px;border-radius:6px;border:1px solid #ddd;margin-top:6px;margin-bottom:12px;font-size:14px;
+}
+textarea{min-height:90px}
+.btn{display:inline-block;background:var(--accent);color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none;}
+.btn:hover{background:var(--accent-dark)}
+.option{display:block;margin-bottom:6px;}
+.reading-text{background:#fbfcff;border:1px solid #eef6ff;padding:12px;border-radius:8px;}
+.correct{color:var(--green);font-weight:700;}
+.incorrect{color:var(--red);font-weight:700;}
+.info{color:var(--muted);}
+.admin-table{width:100%;border-collapse:collapse;}
+.admin-table th, .admin-table td{border:1px solid #e6eef6;padding:8px;text-align:left;}
+.admin-table th{background:var(--accent);color:#fff}
+.actions{margin-top:16px}
+.small{font-size:13px;color:var(--muted)}

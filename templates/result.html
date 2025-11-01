@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Result — English Practice</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body class="result-page">
+  <div class="container">
+    <header>
+      <h1>Result for {{ student_name }}</h1>
+      <p class="lead">Your scores are below. Keep practising!</p>
+    </header>
+
+    <section class="card result">
+      <h2>Summary</h2>
+      <p><strong>Total score:</strong> {{ total_score }} / {{ total_max }}</p>
+      <ul>
+        {% for sec, v in per_section.items() %}
+          <li><strong>{{ sec|capitalize }}:</strong> {{ v.score }} / {{ v.max }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- show detailed feedback (correct/wrong) -->
+    {% for sec, qlist in details.items() %}
+      <section class="card result">
+        <h2>{{ sec|capitalize }}</h2>
+        {% for item in qlist %}
+          <div class="feedback-row">
+            <p class="qtext"><strong>Q:</strong> {{ item.question }}</p>
+            <p><strong>Your answer:</strong>
+              {% if item.correct is sameas none %}
+                <span class="info">{{ item.your }}</span>
+              {% elif item.correct %}
+                <span class="correct">{{ item.your }}</span>
+              {% else %}
+                <span class="incorrect">{{ item.your }}</span>
+              {% endif %}
+            </p>
+            <p><strong>Correct / Example:</strong> {{ item.expected }}{% if item.equivalents %} (also: {{ item.equivalents|join(", ") }}){% endif %}</p>
+          </div>
+        {% endfor %}
+      </section>
+    {% endfor %}
+
+    <div class="actions">
+      <a class="btn" href="{{ url_for('index') }}">Try again</a>
+    </div>
+
+  </div>
+</body>
+</html>

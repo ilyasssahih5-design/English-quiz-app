@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>English Practice — Full Test</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>English Practice — Full Test</h1>
+      <p class="lead">Complete all parts. Submit once when finished. Your teacher will see your results.</p>
+    </header>
+
+    <form action="{{ url_for('submit') }}" method="post">
+
+      <label for="student_name">Your name:</label>
+      <input type="text" id="student_name" name="student_name" placeholder="Write your name" required>
+
+      <!-- PART 1: Grammar -->
+      <section class="card">
+        <h2>🗓️ PART 1 — Grammar (Fill the blanks)</h2>
+        {% for q in questions['grammar'] %}
+          {% set i = loop.index0 %}
+          <div class="question">
+            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
+            <input type="text" name="grammar_{{ i }}" placeholder="Type the correct form">
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- PART 2: Multiple Choice -->
+      <section class="card">
+        <h2>💡 PART 2 — Multiple Choice</h2>
+        {% for q in questions['multiple_choice'] %}
+          {% set i = loop.index0 %}
+          <div class="question">
+            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
+            {% for opt in q.options %}
+              <label class="option"><input type="radio" name="multiple_choice_{{ i }}" value="{{ opt }}"> {{ opt }}</label><br>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- PART 3: Correct the mistakes -->
+      <section class="card">
+        <h2>✍️ PART 3 — Correct the Mistakes</h2>
+        {% for q in questions['correct_mistakes'] %}
+          {% set i = loop.index0 %}
+          <div class="question">
+            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
+            <input type="text" name="correct_mistakes_{{ i }}" placeholder="Write the correct sentence">
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- PART 4: Reading Comprehension -->
+      <section class="card">
+        <h2>📖 PART 4 — Reading Comprehension</h2>
+        <div class="reading-text">
+          <p><strong>Tom’s Daily Routine</strong><br>
+          Tom is a student. He lives in London with his parents and his sister. Every day, Tom wakes up at 7:00 a.m. He has breakfast at 7:30 and then goes to school. His classes start at 8:30 and finish at 2:30. After school, he plays football with his friends in the park. In the evening, Tom does his homework and watches TV. He goes to bed at 10:00 p.m.</p>
+        </div>
+        {% for q in questions['reading'] %}
+          {% set i = loop.index0 %}
+          <div class="question">
+            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
+            <input type="text" name="reading_{{ i }}" placeholder="Type your answer">
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- PART 5: Listening -->
+      <section class="card">
+        <h2>🎧 PART 5 — Listening Comprehension</h2>
+        <p>Play the audio and answer the questions.</p>
+        <audio controls>
+          <source src="{{ url_for('static', filename='audio/listening.mp3') }}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        {% for q in questions['listening'] %}
+          {% set i = loop.index0 %}
+          <div class="question">
+            <p class="qtext">{{ loop.index }}. {{ q.question }}</p>
+            <input type="text" name="listening_{{ i }}" placeholder="Type your answer">
+          </div>
+        {% endfor %}
+      </section>
+
+      <!-- PART 6: Writing -->
+      <section class="card">
+        <h2>✍️ PART 6 — Writing</h2>
+        <p>{{ questions['writing'][0].question }}</p>
+        <textarea name="writing_0" rows="5" placeholder="Write your 5 sentences here..."></textarea>
+      </section>
+
+      <!-- SPEAKING (as text if no recording) -->
+      <section class="card">
+        <h2>🗣️ SPEAKING</h2>
+        <p>{{ questions['speaking'][0].question }}</p>
+        <textarea name="speaking_0" rows="4" placeholder="Write what you would say (or paste a link to a recording)"></textarea>
+      </section>
+
+      <div class="actions">
+        <button type="submit" class="btn primary">Submit all answers</button>
+      </div>
+
+    </form>
+
+    <footer>
+      <p class="small">Teacher only: view all submissions at <code>/admin?password=0690510180Ilyas</code></p>
+    </footer>
+  </div>
+</body>
+</html>
